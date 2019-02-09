@@ -9,7 +9,7 @@ public abstract class Product {
 
 	private final BigDecimal taxPercent;
 
-	protected Product(String name, BigDecimal price, BigDecimal tax) throws IllegalArgumentException{
+	protected Product(String name, BigDecimal price, BigDecimal tax) {
 		if (name == null){
 			throw new IllegalArgumentException("Nawza null");
 		}
@@ -19,9 +19,10 @@ public abstract class Product {
 		if (price == null){
 			throw new IllegalArgumentException("Cena null");
 		}
-		if (price == price.negate()){
+		if (price.compareTo(BigDecimal.ZERO) < 0){
 			throw new IllegalArgumentException("Cena ujemna");
 		}
+		
 		
 		this.name = name;
 		this.price = price;
