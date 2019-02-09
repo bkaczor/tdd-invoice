@@ -19,7 +19,7 @@ public abstract class Product {
 		if (price == null){
 			throw new IllegalArgumentException("Cena null");
 		}
-		if (price.negate() != null){
+		if (price == price.negate()){
 			throw new IllegalArgumentException("Cena ujemna");
 		}
 		
