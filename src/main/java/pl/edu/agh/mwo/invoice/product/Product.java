@@ -9,25 +9,38 @@ public abstract class Product {
 
 	private final BigDecimal taxPercent;
 
-	protected Product(String name, BigDecimal price, BigDecimal tax) {
+	protected Product(String name, BigDecimal price, BigDecimal tax) throws IllegalArgumentException{
+		if (name == null){
+			throw new IllegalArgumentException("Nawza null");
+		}
+		if (name == ""){
+			throw new IllegalArgumentException("Pusta nazwa");
+		}
+		if (price == null){
+			throw new IllegalArgumentException("Cena null");
+		}
+		if (price.negate() != null){
+			throw new IllegalArgumentException("Cena ujemna");
+		}
+		
 		this.name = name;
 		this.price = price;
 		this.taxPercent = tax;
 	}
 
 	public String getName() {
-		return null;
+		return this.name;
 	}
 
 	public BigDecimal getPrice() {
-		return null;
+		return this.price;
 	}
 
 	public BigDecimal getTaxPercent() {
-		return null;
+		return this.taxPercent;
 	}
 
 	public BigDecimal getPriceWithTax() {
-		return null;
+		return (price.add(price).multiply(taxPercent));
 	}
 }
