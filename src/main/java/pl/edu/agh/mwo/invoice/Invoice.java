@@ -25,7 +25,15 @@ public class Invoice {
 		if (product == null || quantity <= 0) {
 			throw new IllegalArgumentException();
 		}
-		products.put(product, quantity);
+		if (this.products.containsKey(product))
+		{
+			Integer current  = this.products.get(product);
+			this.products.put(product, current + quantity);
+		}
+		else
+		{
+			products.put(product, quantity);
+		}
 	}
 
 	public BigDecimal getNetTotal() {
