@@ -1,13 +1,13 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-	private Map<Product, Integer> products = new HashMap<Product, Integer>();
+	private Map<Product, Integer> products = new LinkedHashMap<Product, Integer>();
 	private int number;
 	private static Integer nextNumber = 1;
 	
@@ -54,5 +54,26 @@ public class Invoice {
 		return this.number;
 		
 		
+	}
+
+
+	public String getAsText() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("FV nr: " + this.number);
+		for (Product product : products.keySet())
+		{
+			BigDecimal quantity = new BigDecimal(products.get(product));
+			sb.append("\n");
+			sb.append(product.getName());
+			sb.append(" ");
+			sb.append(quantity);
+			sb.append(" ");
+			sb.append(product.getPrice());
+		}
+		sb.append("\nLiczba pozycji: ");
+		sb.append(this.products.size());
+		
+		
+		return sb.toString();
 	}
 }

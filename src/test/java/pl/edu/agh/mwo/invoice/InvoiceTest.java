@@ -142,9 +142,45 @@ public class InvoiceTest {
 		Assert.assertThat(number1, Matchers.lessThan(number2));
 	}
 	
+	@Test
+	public void testPrintedInvoiceContainsNumber()
+	{
+		String printedInvoice = invoice.getAsText();
+		String number = invoice.getNumber().toString();
+		Assert.assertThat(printedInvoice, Matchers.containsString("FV nr: "+number));
+	}
 	
+	@Test
+	public void testPrintedInvoiceContainsProduct()
+	{
+		invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+		String printedInvoice = invoice.getAsText();
+		Assert.assertThat(printedInvoice, Matchers.containsString("Chleb 2 5"));
+	}
 	
+	@Test
+	public void testPrintedInvoiceContainsTheNumberOfProducts()
+	{
+		invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+		invoice.addProduct(new OtherProduct("Gumowa kaczka", new BigDecimal("6")), 1);
+		invoice.addProduct(new DairyProduct("Prawdziwa kaczka", new BigDecimal("6.50")), 3);
+
+		Assert.assertThat(invoice.getAsText(), Matchers.containsString("Liczba pozycji: 3"));
+	}
 	
+	@Test
+	public void testEachProductIsNewLine()
+	{
+		invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+		invoice.addProduct(new OtherProduct("Frytki", new BigDecimal("6.50")), 3);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("Chleb 2 5");
+		sb.append("\n");
+		sb.append("Frytki 3 6.50");
+		
+		Assert.assertThat(invoice.getAsText(), Matchers.containsString(sb.toString()));
+	}
 	
 	
 	
